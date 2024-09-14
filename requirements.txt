@@ -1,0 +1,6 @@
+numpy
+pandas
+obspy
+matplotlib
+datatime
+scipy
