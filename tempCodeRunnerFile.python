@@ -1,0 +1,6 @@
+l_name = ["Bri", "John", "George", "Ringo"]
+l_universidades = ["ESPOL", "IPN", "UAM", "UAEM"]
+posi_ESPOL = l_universidades.index("ESPOL")
+print(l_name[posi_ESPOL])
+
+
