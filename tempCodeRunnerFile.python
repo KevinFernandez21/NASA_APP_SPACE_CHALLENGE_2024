@@ -1,6 +1,6 @@
-l_name = ["Bri", "John", "George", "Ringo"]
-l_universidades = ["ESPOL", "IPN", "UAM", "UAEM"]
-posi_ESPOL = l_universidades.index("ESPOL")
-print(l_name[posi_ESPOL])
+l_cumplenera= ["valentina", "kevin", "paco","luisa"]
+l_regalos = ["ropa", "maquillaje", "perfume", "dinero"]
+l_invitados = ["15","20","18","30"]
+posi_valentina=l_cumplenera.index("valentina")
 
-
+print (f"la cumpleañera es {l_cumplenera[posi_valentina]} sus regalos son {l_regalos[posi_valentina]} sus invitados {l_invitados[posi_valentina]}")
