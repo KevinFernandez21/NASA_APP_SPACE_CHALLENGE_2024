@@ -1,6 +1,8 @@
-l_cumplenera= ["valentina", "kevin", "paco","luisa"]
-l_regalos = ["ropa", "maquillaje", "perfume", "dinero"]
-l_invitados = ["15","20","18","30"]
-posi_valentina=l_cumplenera.index("valentina")
-
-print (f"la cumpleañera es {l_cumplenera[posi_valentina]} sus regalos son {l_regalos[posi_valentina]} sus invitados {l_invitados[posi_valentina]}")
+l_numeros = [1, 2, 3, 4]
+i=0
+for numero in l_numeros:
+    print(numero)
+print("-"*30)
+for i in range(len(l_numeros)):
+    print(l_numeros[i])
+    i+=1
