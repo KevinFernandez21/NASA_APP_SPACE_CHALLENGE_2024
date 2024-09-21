@@ -1,8 +1,9 @@
-l_numeros = [1, 2, 3, 4]
-i=0
-for numero in l_numeros:
-    print(numero)
-print("-"*30)
-for i in range(len(l_numeros)):
-    print(l_numeros[i])
-    i+=1
+edad = int(input("Introduce tu edad: "))
+if (edad>=18 and edad<=65):
+    print("Eres mayor de edad")
+elif (edad>=0 and edad <18):
+    print("Eres menor de edad")
+elif (edad>65):
+    print("Eres tercera edad")
+else:
+    print("Sales del rango")
