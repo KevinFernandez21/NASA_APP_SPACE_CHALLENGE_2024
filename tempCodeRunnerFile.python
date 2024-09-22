@@ -1,9 +1,4 @@
-edad = int(input("Introduce tu edad: "))
-if (edad>=18 and edad<=65):
-    print("Eres mayor de edad")
-elif (edad>=0 and edad <18):
-    print("Eres menor de edad")
-elif (edad>65):
-    print("Eres tercera edad")
-else:
-    print("Sales del rango")
+i=1
+while not(i == 6):
+    print(i)
+    i += 1
