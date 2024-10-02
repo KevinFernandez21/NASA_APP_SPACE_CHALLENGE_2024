@@ -1,4 +1,4 @@
-i=1
-while not(i == 6):
+num=0
+for i in range(5):
     print(i)
-    i += 1
+    num += 1
