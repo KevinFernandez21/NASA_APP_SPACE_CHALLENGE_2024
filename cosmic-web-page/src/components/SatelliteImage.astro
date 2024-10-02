@@ -1,0 +1,41 @@
+---
+// SatelliteImage.astro
+---
+
+<img
+  src="../src/images/satellite.svg"
+  alt="Satellite"
+  class="satellite-image"
+/>
+
+<style>
+  .satellite-image {
+    position: absolute;
+    bottom: -8vh;
+    right: 30vh;
+    max-height: 50vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    animation: satalite 3s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes satalite {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(10deg);
+    }
+    50% {
+      transform: rotate(0deg);
+    }
+    75% {
+      transform: rotate(-10deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+</style>

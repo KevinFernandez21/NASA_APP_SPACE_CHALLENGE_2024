@@ -1,0 +1,32 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Title from "../components/Title.astro";
+import AstroImage from "../components/AstroImage.astro";
+import SatelliteImage from "../components/SatelliteImage.astro";
+---
+
+<Layout title="Welcome!">
+  <main>
+    <Title />
+    <div>
+      <AstroImage />
+      <SatelliteImage />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    margin: -30px 50px;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-width: 100%;
+    color: white;
+    font-size: 20px;
+    line-height: 1.6;
+    position: relative;
+  }
+</style>
