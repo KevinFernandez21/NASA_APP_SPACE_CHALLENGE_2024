@@ -2,18 +2,31 @@
 // SatelliteImage.astro
 ---
 
-<img
-  src="../src/images/satellite.svg"
-  alt="Satellite"
-  class="satellite-image"
-/>
+<div class="container-satellite">
+  <img
+    src="../src/images/satellite.svg"
+    alt="Satellite"
+    class="satellite-image"
+  />
+</div>
 
 <style>
+
+  .container-satellite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
   .satellite-image {
-    position: absolute;
-    bottom: -8vh;
-    right: 30vh;
-    max-height: 50vh;
+    position: sticky;
+    top: 10rem;
+    max-height: 32vh;
     width: auto;
     height: auto;
     object-fit: contain;
