@@ -2,28 +2,38 @@
 // Title.astro
 ---
 
-<h1>
-  <span class="word">Cosmic</span>
-  <span class="blue-title">QUAKES</span>
-</h1>
+<div class="header-title">
+  <h1>
+    <span class="word">Cosmic</span>
+    <span class="blue-title">QUAKES</span>
+  </h1>
+</div>
 
 <style>
+
+  .header-title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
   h1 {
-    font-size: 5rem;
-    font-weight: 700;
+    font-size: 4rem;
     font-family: "Space Frigate";
     line-height: 1;
     text-align: center;
-    margin-bottom: 1em;
     position: relative;
   }
 
   .blue-title {
     position: absolute;
-    top: 4rem;
+    top: 3rem;
     left: 0;
     color: #87d3ff;
-    font-size: 3.6rem;
+    font-size: 3rem;
     font-family: Arial, Helvetica, sans-serif;
   }
 
