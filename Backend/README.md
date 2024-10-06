@@ -1,5 +1,4 @@
-# Algoritmo  v1
-# Análisis de Eventos Sísmicos
+# Análisis de Eventos Sísmicos algoritmo STA/LTA
 Este proyecto contiene scripts para analizar señales sísmicas usando datos del Apollo y archivos `.mseed`.
 
 ## Instrucciones para el uso
