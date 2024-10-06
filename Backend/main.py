@@ -12,6 +12,9 @@ import shutil
 from obspy import read
 import io
 import matplotlib.pyplot as plt
+import re
+from dotenv import load_dotenv
+import google.generativeai as genai
 
 app = FastAPI()
 
@@ -327,6 +330,216 @@ async def upload_mseed_or_csv_to_json(file: UploadFile = File(...)):
     finally:
         temp_file.close()
         os.remove(temp_file_path)
+
+
+def deserializar_respuesta(respuesta_texto):
+    # Expresión regular para capturar valores de 'sta', 'lta' y 'confirmation'
+    patron = r"'sta':\s*(\d+),\s*'lta':\s*(\d+),\s*'confirmation':\s*'(yes|no)'"
+
+    # Buscar el patrón en el texto de respuesta
+    match = re.search(patron, respuesta_texto)
+
+    if match:
+        sta = int(match.group(1))  # Extraer y convertir 'sta' a entero
+        lta = int(match.group(2))  # Extraer y convertir 'lta' a entero
+        confirmation = match.group(3)  # Extraer 'confirmation' (yes o no)
+        return sta, lta, confirmation
+    else:
+        raise ValueError("No se pudo deserializar la respuesta. Formato inválido.")
+
+
+generation_config = {
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 64,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
+}
+
+model = genai.GenerativeModel(
+    model_name="gemini-1.5-pro",
+    generation_config=generation_config,
+)
+
+
+def upload_to_gemini(path, mime_type=None):
+    load_dotenv()
+
+    gemini_api_key = os.getenv("API_KEY")
+    genai.configure(api_key=gemini_api_key)
+
+    file = genai.upload_file(path, mime_type=mime_type)
+    return file
+
+
+@app.post("/detect-events/")
+async def detect_events(file: UploadFile = File(...)):
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    try:
+        with temp_file:
+            shutil.copyfileobj(file.file, temp_file)
+        temp_file_path = temp_file.name
+
+        st = read(temp_file_path)
+        tr = st[0].copy()
+
+        # Apply a highpass filter
+        minfreq = 0.5
+        tr.filter("highpass", freq=minfreq)
+
+        # Obtain filtered trace data
+        tr_times = tr.times()
+        tr_data = tr.data
+
+        # Min-Max normalization
+        min_val = np.min(tr_data)
+        max_val = np.max(tr_data)
+        tr_data_minmax = (
+            2 * (tr_data - min_val) / (max_val - min_val) - 1
+        )  # Escalado entre -1 y 1
+
+        # 1. Apply a Median Filter
+        tr_data_median_filtered = medfilt(tr_data_minmax, kernel_size=5)
+
+        # Visualize the signals
+        plt.figure(figsize=(12, 8))
+
+        # Filtered Signal with Median
+        plt.subplot(3, 1, 1)
+        plt.plot(tr_times, tr_data_median_filtered, "r-", label="Filtrada con Mediana")
+        plt.title("Señal Filtrada con Filtro de Mediana")
+        plt.xlabel("Tiempo (s)")
+        plt.ylabel("Amplitud")
+        plt.savefig("mediana.png")
+        plt.close()
+
+        # 2. Apply Noise Reduction
+        sample_rate = 1 / (tr_times[1] - tr_times[0])  # Calculate sampling rate
+        signal_cleaned = nr.reduce_noise(
+            y=tr_data_median_filtered, sr=sample_rate, time_mask_smooth_ms=40000
+        )
+
+        confirmation = (
+            "no"  # You want to set confirmation to "no" to begin the while loop
+        )
+        i = 0
+
+        # Sampling frequency of the trace
+        df = tr.stats.sampling_rate
+
+        while confirmation != "yes":
+            if i == 0:
+                # Default STA/LTA window lengths
+                sta_len = 60  # Short-term window in seconds
+                lta_len = 1200  # Long-term window in seconds
+            else:
+                # Use the updated window lengths from the user response
+                sta_len, lta_len, confirmation = deserializar_respuesta(response.text)
+
+            # Run Obspy's STA/LTA to obtain a characteristic function
+            cft = classic_sta_lta(signal_cleaned, int(sta_len * df), int(lta_len * df))
+
+            # Define the minimum event duration (in seconds)
+            min_duration = 420  # Adjust as per requirements
+            # Convert minimum duration to samples
+            min_duration_samples = int(min_duration * df)
+
+            # Plot the characteristic function
+            fig, ax = plt.subplots(1, 1, figsize=(12, 3))
+            ax.plot(tr_times, cft)
+            ax.set_xlim([min(tr_times), max(tr_times)])
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Characteristic function")
+            plt.savefig("caracteristica.png")
+            plt.close()
+
+            response = model.generate_content(
+                [
+                    upload_to_gemini("caracteristica.png", mime_type="image/png"),
+                    "The graph is improving, but we need to optimize it further. Please suggest a new value for the STA and LTA windows to obtain a better graph. Respond **only** in the following format: {'sta': <new_sta_value>, 'lta': <new_lta_value>, 'confirmation': <yes or no>}. Make sure the response contains only values in this format.",
+                ]
+            )
+
+            i += 1  # Increment the loop counter
+
+        # Define thresholds for event detection
+        thresholds = [
+            {"on": 12, "off": 1},  # Umbrales para el primer evento
+            {"on": 10, "off": 1},  # Umbrales para el segundo evento
+            {"on": 6, "off": 1},  # Umbrales para el tercer evento
+            {"on": 5, "off": 1},  # Umbrales para el cuarto evento
+            {"on": 4, "off": 1},  # Umbrales para el quinto evento
+            {"on": 1.8, "off": 1},  # Umbrales para el sexto evento
+            {"on": 1.5, "off": 1},  # Umbrales para el séptimo evento
+            {"on": 1.1, "off": 1},  # Umbrales para el octavo evento
+        ]
+
+        filtered_on_off = []  # Inicializa la lista que almacenará los eventos filtrados
+        min_duration_samples = 420  # Ejemplo de duración mínima para un evento
+        detected_events = (
+            set()
+        )  # Inicializar un conjunto para almacenar los tiempos de los triggers ya detectados
+
+        # Mientras que no se encuentren eventos válidos y haya más umbrales que probar
+        for idx, thr in enumerate(thresholds):
+            thr_on = thr["on"]  # Obtiene el umbral de activación actual
+            thr_off = thr["off"]  # Obtiene el umbral de desactivación actual
+
+            # Obtener los triggers usando los umbrales actuales
+            on_off = np.array(trigger_onset(cft, thr_on, thr_off))
+
+            # Filtrar los eventos que duren menos que el tiempo mínimo
+            temp_filtered = []
+            for triggers in on_off:
+                if (triggers[1] - triggers[0]) >= min_duration_samples:
+                    event_range = range(triggers[0], triggers[1] + 1)
+                    if not any(time in detected_events for time in event_range):
+                        temp_filtered.append(triggers)
+                        detected_events.update(
+                            event_range
+                        )  # Agregar el rango del evento detectado
+
+            temp_filtered = np.array(temp_filtered)
+            if len(temp_filtered) > 0:
+                filtered_on_off.extend(temp_filtered.tolist())
+
+        if len(filtered_on_off) > 0:
+            # Graficar los triggers on y off (solo los filtrados)
+            fig, ax = plt.subplots(1, 1, figsize=(12, 3))
+            for i, triggers in enumerate(filtered_on_off):
+                ax.axvline(
+                    x=tr_times[triggers[0]],
+                    color="red",
+                    label="Trig. On" if i == 0 else "",
+                )
+                ax.axvline(
+                    x=tr_times[triggers[1]],
+                    color="purple",
+                    label="Trig. Off" if i == 0 else "",
+                )
+
+            ax.plot(tr_times, tr_data)
+            ax.set_xlim([min(tr_times), max(tr_times)])
+
+            handles, labels = ax.get_legend_handles_labels()
+            by_label = dict(zip(labels, handles))
+            ax.legend(by_label.values(), by_label.keys())
+
+            plt.title(f"Resultados con {len(filtered_on_off)} eventos detectados")
+            plt.savefig("resultados.png")
+            plt.close()
+        else:
+            print(
+                "No se encontraron eventos que cumplan la duración mínima en ninguno de los umbrales."
+            )
+
+        filtered_on_off = np.array(filtered_on_off)
+        filtered_on_off = filtered_on_off / df
+        filtered_on_off_list = filtered_on_off.tolist()
+        return JSONResponse(content=filtered_on_off_list)
+
+    finally:
+        temp_file.close()
 
 
 if __name__ == "__main__":
