@@ -82,11 +82,5 @@ Este proyecto utiliza **Python** para la programación backend, junto con divers
 ### Astro
 El frontend de este proyecto utiliza **Astro**, una plataforma para la creación de sitios web estáticos. Astro está licenciado bajo la **[Licencia MIT](https://opensource.org/licenses/MIT)**, permitiendo el uso y modificación del software bajo los términos de esta licencia.
 
-### Reconocimientos
-- **NASA**: Agradecemos a la NASA por proporcionar los datos de este proyecto.
-- **GEMINI**: Agradecemos a los desarrolladores del algoritmo GEMINI por su implementación de detección de eventos sísmicos.
-- **Python**: Reconocemos a la comunidad de Python por proporcionar herramientas y bibliotecas de código abierto utilizadas en este proyecto.
-- **Astro**: Agradecemos a los desarrolladores de Astro por proporcionar la plataforma frontend utilizada en este proyecto.
-
 ### Disclaimer
 Este proyecto es una implementación independiente y no está afiliado ni patrocinado por la NASA ni por ninguna de las organizaciones o herramientas mencionadas.
