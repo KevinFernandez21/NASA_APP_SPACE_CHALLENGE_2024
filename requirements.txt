@@ -2,7 +2,7 @@ numpy
 pandas
 obspy
 matplotlib
-datatime
+datetime
 scipy
 google-generativeai
 noisereduce

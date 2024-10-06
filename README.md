@@ -1,4 +1,4 @@
-﻿# NASA_APP_SPACE_CHALLENGE_2024
+﻿# CosmicQuakes
 
 ### Crear un entorno virtual llamado 'env'
 ```
