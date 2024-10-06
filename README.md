@@ -39,24 +39,24 @@ npm install
 npm start
 ```
 
-##Algoritmo STA/LTA (Short-Term Average / Long-Term Average)
-El algoritmo STA/LTA es una técnica ampliamente utilizada en sismología para la detección automática de eventos sísmicos. Se basa en comparar el promedio de amplitudes en una ventana de corto plazo (STA) con una ventana de largo plazo (LTA) para identificar cambios abruptos en la señal que pueden indicar la llegada de un evento sísmico.
+## STA/LTA Algorithm (Short-Term Average / Long-Term Average)
+The STA/LTA algorithm is a technique widely used in seismology for the automatic detection of seismic events. It is based on comparing the average amplitudes in a short-term window (STA) with a long-term window (LTA) to identify abrupt changes in the signal that may indicate the arrival of a seismic event.
 
-###Funcionamiento:
-Cálculo de STA: Promedio de la señal en una ventana corta.
-Cálculo de LTA: Promedio de la señal en una ventana larga.
-Relación STA/LTA: Se calcula la relación entre STA y LTA.
-Detección de eventos: Si la relación STA/LTA excede un umbral, se detecta un posible evento sísmico.
+### Operation:
+STA Calculation: Average of the signal in a short window.
+LTA Calculation: Average of the signal in a long window.
+STA/LTA Relation: The relation between STA and LTA is calculated .
+Event detection: If the STA/LTA relation exceeds the threshold, a possible seismic event is detected.
 
-###Parámetros importantes:
-Tamaño de ventanas STA/LTA: Se ajustan según el ruido de fondo y la señal.
-Umbral STA/LTA: Valor que define cuándo se detecta un evento, comúnmente entre 3 y 5.
+### Important parameters:
+STA/LTA windows size: They are adjusted based on background noise and the signal.
+STA/LTA threshold: The value that defines when an event is detected, commonly between 3 and 5.
 
-###Aplicaciones:
-Detección de terremotos en tiempo real.
-Alerta sísmica temprana.
-Monitorización de actividad volcánica.
-Este algoritmo es simple, eficiente y se adapta bien a entornos de monitoreo en tiempo real, aunque es sensible al ruido y requiere ajuste de umbrales.
+### Aplications:
+Earthquake detection in real time.
+Seismic early warning.
+Volcanic activity monitoring.
+This algorithm is simple, efficient and adapts well to real-time monitoring environments, although is sensitive to noise and requires threshold adjustments.
 
 ### Pitch
 https://docs.google.com/document/d/1o_0bz3-MW2KJ5bCeEsQu4_z5OBKg2tfOF56gWJRCYOI/edit?usp=sharing
