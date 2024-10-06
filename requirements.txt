@@ -4,3 +4,6 @@ obspy
 matplotlib
 datatime
 scipy
+google-generativeai
+noisereduce
+python-dotenv
