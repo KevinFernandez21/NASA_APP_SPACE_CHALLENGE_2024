@@ -8,7 +8,14 @@ Este proyecto contiene scripts para analizar señales sísmicas usando datos del
    - pandas
    - obspy
    - matplotlib
+   - datetime
    - scipy
+   - google-generativeai
+   - noisereduce
+   - python-dotenv
+fastapi
+uvicorn
+python-multipart
 3. Organiza los datos en la carpeta `/data`.
 4. Ejecuta el análisis desde el notebook o los scripts de Python.
 
