@@ -9,3 +9,4 @@ noisereduce
 python-dotenv
 fastapi
 uvicorn
+python-multipart
