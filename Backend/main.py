@@ -526,17 +526,14 @@ async def detect_events(file: UploadFile = File(...)):
             ax.legend(by_label.values(), by_label.keys())
 
             plt.title(f"Resultados con {len(filtered_on_off)} eventos detectados")
-            plt.savefig("resultados.png")
+
+            plt.savefig("resultados_eventos.svg", format="svg")
             plt.close()
         else:
             print(
                 "No se encontraron eventos que cumplan la duración mínima en ninguno de los umbrales."
             )
-
-        filtered_on_off = np.array(filtered_on_off)
-        filtered_on_off = filtered_on_off / df
-        filtered_on_off_list = filtered_on_off.tolist()
-        return JSONResponse(content=filtered_on_off_list)
+        return FileResponse("resultados_eventos.svg")
 
     finally:
         temp_file.close()
