@@ -160,49 +160,6 @@ async def upload_and_square(file: UploadFile = File(...)):
         temp_file.close()
 
 
-@app.post("/upload-csv-to-mseed/")
-async def upload_and_square(file: UploadFile = File(...)):
-    temp_file = tempfile.NamedTemporaryFile(delete=False)
-    try:
-        with temp_file:
-            shutil.copyfileobj(file.file, temp_file)
-        temp_file_path = temp_file.name
-
-        data = np.genfromtxt(temp_file_path, delimiter=",", skip_header=1)
-        times = data[:, 0]
-        normalized_data = data[:, 1]
-
-        min_val = np.min(normalized_data)
-        max_val = np.max(normalized_data)
-        tr_data = (normalized_data + 1) * (max_val - min_val) / 2 + min_val
-
-        tr = Trace(data=tr_data)
-        tr.stats.starttime = UTCDateTime(times[0])
-        tr.stats.sampling_rate = 1 / (times[1] - times[0])
-        tr.stats.network = "NET"
-        tr.stats.station = "STA"
-        tr.stats.location = ""
-        tr.stats.channel = "CH"
-
-        st = Stream(traces=[tr])
-
-        output = io.BytesIO()
-        st.write(output, format="MSEED")
-        output.seek(0)
-
-        response = StreamingResponse(output, media_type="application/octet-stream")
-        response.headers["Content-Disposition"] = (
-            f"attachment; filename={file.filename.split('.')[0]}.mseed"
-        )
-        return response
-
-    except Exception as e:
-        return {"error": str(e)}
-    finally:
-        temp_file.close()
-        os.remove(temp_file_path)
-
-
 @app.post("/upload-mseed-to-png/")
 async def upload_and_square(file: UploadFile = File(...)):
     temp_file = tempfile.NamedTemporaryFile(delete=False)
@@ -241,26 +198,80 @@ async def upload_and_square(file: UploadFile = File(...)):
         temp_file.close()
 
 
-@app.post("/upload-mseed-to-json/")
-async def upload_and_square(file: UploadFile = File(...)):
+def process_data_to_json(times, data):
+    min_val = np.min(data)
+    max_val = np.max(data)
+    normalized_data_minmax = 2 * (data - min_val) / (max_val - min_val) - 1
+
+    # Crear JSON a partir de los datos
+    output = io.StringIO()
+    output.write("{\n")
+    output.write(f'  "time": {times.tolist()},\n')
+    output.write(f'  "normalized_data": {normalized_data_minmax.tolist()}\n')
+    output.write("}")
+    output.seek(0)
+
+    return output
+
+
+@app.post("/upload-csv-to-mseed/")
+async def upload_csv_to_mseed(file: UploadFile = File(...)):
     temp_file = tempfile.NamedTemporaryFile(delete=False)
     try:
         with temp_file:
             shutil.copyfileobj(file.file, temp_file)
         temp_file_path = temp_file.name
+
+        data = np.genfromtxt(temp_file_path, delimiter=",", skip_header=1)
+        times = data[:, 0]
+        normalized_data = data[:, 1]
+
+        # Normalización y generación de MSEED
+        min_val = np.min(normalized_data)
+        max_val = np.max(normalized_data)
+        tr_data = (normalized_data + 1) * (max_val - min_val) / 2 + min_val
+
+        tr = Trace(data=tr_data)
+        tr.stats.starttime = UTCDateTime(times[0])
+        tr.stats.sampling_rate = 1 / (times[1] - times[0])
+        tr.stats.network = "NET"
+        tr.stats.station = "STA"
+        tr.stats.location = ""
+        tr.stats.channel = "CH"
+
+        st = Stream(traces=[tr])
+
+        output = io.BytesIO()
+        st.write(output, format="MSEED")
+        output.seek(0)
+
+        response = StreamingResponse(output, media_type="application/octet-stream")
+        response.headers["Content-Disposition"] = (
+            f"attachment; filename={file.filename.split('.')[0]}.mseed"
+        )
+        return response
+
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        temp_file.close()
+        os.remove(temp_file_path)
+
+
+@app.post("/upload-mseed-to-json/")
+async def upload_mseed_to_json(file: UploadFile = File(...)):
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    try:
+        with temp_file:
+            shutil.copyfileobj(file.file, temp_file)
+        temp_file_path = temp_file.name
+
         st = read(temp_file_path)
         tr = st[0].copy()
         tr_times = tr.times()
         tr_data = tr.data
-        min_val = np.min(tr_data)
-        max_val = np.max(tr_data)
-        tr_data_minmax = 2 * (tr_data - min_val) / (max_val - min_val) - 1
-        output = io.StringIO()
-        output.write("{\n")
-        output.write(f'  "time": {tr_times.tolist()},\n')
-        output.write(f'  "normalized_data": {tr_data_minmax.tolist()}\n')
-        output.write("}")
-        output.seek(0)
+
+        output = process_data_to_json(tr_times, tr_data)
 
         response = StreamingResponse(output, media_type="application/json")
         response.headers["Content-Disposition"] = (
@@ -272,6 +283,51 @@ async def upload_and_square(file: UploadFile = File(...)):
         return {"error": str(e)}
     finally:
         temp_file.close()
+        os.remove(temp_file_path)
+
+
+@app.post("/upload-mseed-or-csv-to-json/")
+async def upload_mseed_or_csv_to_json(file: UploadFile = File(...)):
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    try:
+        with temp_file:
+            shutil.copyfileobj(file.file, temp_file)
+        temp_file_path = temp_file.name
+
+        # Detectar el tipo de archivo basado en la extensión
+        file_extension = file.filename.split(".")[-1].lower()
+
+        if file_extension == "csv":
+            # Procesar como CSV
+            data = np.genfromtxt(temp_file_path, delimiter=",", skip_header=1)
+            times = data[:, 0]
+            normalized_data = data[:, 1]
+            output = process_data_to_json(times, normalized_data)
+
+        elif file_extension == "mseed":
+            # Procesar como MSEED
+            st = read(temp_file_path)
+            tr = st[0].copy()
+            tr_times = tr.times()
+            tr_data = tr.data
+            output = process_data_to_json(tr_times, tr_data)
+
+        else:
+            return {
+                "error": "Unsupported file format. Please upload CSV or MSEED files."
+            }
+
+        response = StreamingResponse(output, media_type="application/json")
+        response.headers["Content-Disposition"] = (
+            f"attachment; filename={file.filename.split('.')[0]}_normalized.json"
+        )
+        return response
+
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        temp_file.close()
+        os.remove(temp_file_path)
 
 
 if __name__ == "__main__":
