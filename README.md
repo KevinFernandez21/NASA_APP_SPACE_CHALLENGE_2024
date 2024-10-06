@@ -63,3 +63,24 @@ https://docs.google.com/document/d/1o_0bz3-MW2KJ5bCeEsQu4_z5OBKg2tfOF56gWJRCYOI/
 
 ### Research
 https://drive.google.com/drive/folders/1DtINUjPLPX3I8YHnhkOQI5IKpdufvh_4?usp=sharing
+
+## Derechos y Licencias
+
+### Datos de la NASA
+Este proyecto utiliza datos proporcionados por la **NASA**. Los datos están sujetos a la política de uso de datos de la NASA, que permite su uso siempre que se dé el reconocimiento adecuado. Para más información sobre la política de uso de datos de la NASA, consulta el siguiente enlace:
+
+- [Política de uso de datos de la NASA](https://www.nasa.gov/content/nasa-open-data-policy)
+
+El uso de estos datos no implica un respaldo por parte de la NASA hacia este proyecto o sus autores.
+
+### GEMINI
+El algoritmo **GEMINI** utilizado en este proyecto para la detección de eventos sísmicos es software libre y está licenciado bajo la **[Licencia MIT](https://opensource.org/licenses/MIT)** (o la licencia que corresponda, dependiendo de GEMINI). Esto significa que puedes usar, modificar y distribuir GEMINI, siempre que se incluya una copia de la licencia.
+
+### Python
+Este proyecto utiliza **Python** para la programación backend, junto con diversas bibliotecas de código abierto (como `numpy`, `pandas`, `matplotlib`, `obspy`, etc.). Python está licenciado bajo la **[Licencia Python Software Foundation (PSF)](https://docs.python.org/3/license.html)**, que permite su libre uso en proyectos comerciales y no comerciales.
+
+### Astro
+El frontend de este proyecto utiliza **Astro**, una plataforma para la creación de sitios web estáticos. Astro está licenciado bajo la **[Licencia MIT](https://opensource.org/licenses/MIT)**, permitiendo el uso y modificación del software bajo los términos de esta licencia.
+
+### Disclaimer
+Este proyecto es una implementación independiente y no está afiliado ni patrocinado por la NASA ni por ninguna de las organizaciones o herramientas mencionadas.
