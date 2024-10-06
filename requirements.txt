@@ -2,5 +2,11 @@ numpy
 pandas
 obspy
 matplotlib
-datatime
+datetime
 scipy
+google-generativeai
+noisereduce
+python-dotenv
+fastapi
+uvicorn
+python-multipart
