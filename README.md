@@ -1,9 +1,9 @@
 ﻿# CosmicQuakes
 ## Integrantes
-● Esleiter Jose Fajardo Laya
-● Aiston Ariel Salazar Vargas
-● Diego Enzo Javier Araujo Ortega
-● Víctor Daniel Borbor Gutiérrez
+● Esleiter Jose Fajardo Laya  
+● Aiston Ariel Salazar Vargas  
+● Diego Enzo Javier Araujo Ortega  
+● Víctor Daniel Borbor Gutiérrez  
 ● Kevin David Fernandez Sanchez
 
 ### Crear un entorno virtual llamado 'env'
