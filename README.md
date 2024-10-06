@@ -1,5 +1,5 @@
 ﻿# CosmicQuakes
-## Integrantes
+## Members
 ● Esleiter Jose Fajardo Laya  
 ● Aiston Ariel Salazar Vargas  
 ● Diego Enzo Javier Araujo Ortega  
@@ -7,34 +7,34 @@
 ● Kevin David Fernandez Sanchez
 
 
-## Intalación de Back-End 
-### Crear un entorno virtual llamado 'env'
+## Back-End Installation
+### Create a virtual environment called 'env'
 ```
 python -m venv env
 ```
 
-### Activar el entorno virtual
+### Activate the virtual environment
 ```
 env/Scripts/activate
 ```
 
-### Instalar las dependencias desde requirements.txt
+### Install dependencies from requierements.txt
 ````
 pip install -r requirements.txt
 ````
 
-## Instalación de Front-End
+## Front-End Installation
 ### 
 ```
 cd cosmic-web-page
 ```
 
-###instalar dependencias
+### Install dependencies
 ```
 npm install
 ```
 
-###iniciar el frontend
+### Init frontend
 ```
 npm start
 ```
