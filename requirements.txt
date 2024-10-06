@@ -7,3 +7,5 @@ scipy
 google-generativeai
 noisereduce
 python-dotenv
+fastapi
+uvicorn
