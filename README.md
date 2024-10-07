@@ -18,8 +18,24 @@ python -m venv env
 ```
 
 ### Activate the virtual environment
+On Windows
+Open the terminal (CMD or PowerShell).
+
+Navigate to your project folder.
+
+Run the following command:
 ```
 env/Scripts/activate
+```
+
+On Linux
+Open the terminal.
+
+Navigate to your project folder.
+
+Run the following command:
+```
+source env/bin/activate
 ```
 
 ### Install dependencies from requierements.txt
