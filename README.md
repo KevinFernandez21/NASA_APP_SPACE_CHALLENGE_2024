@@ -52,10 +52,9 @@ LTA Calculation: Average of the signal in a long window.
 STA/LTA Relation: The relation between STA and LTA is calculated .
 Event detection: If the STA/LTA relation exceeds the threshold, a possible seismic event is detected.
 
-### Integracion en el codigo
+### Code Integration and Versioning
+[Ver la documentación completa](./Backend/README.md)
 
-
-## Rights and Licenses
 
 ## Rights and Licenses
 
