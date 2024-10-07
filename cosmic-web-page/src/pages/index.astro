@@ -18,7 +18,10 @@ import Title from "../components/Title.astro";
         </p>
         <div class="section-action">
           <input type="file" id="file-input" />
-          <button id="upload-btn" class="button-download">Cargar</button>
+          <button id="upload-btn" class="button-download">
+            <span>Cargar</span>
+            <div id="spinner" class="spinner" style="display: none;"></div>
+          </button>
         </div>
       </div>
       <div class="content-information">
@@ -56,6 +59,7 @@ import Title from "../components/Title.astro";
   document.getElementById("upload-btn").addEventListener("click", async () => {
     const fileInput = document.getElementById("file-input");
     const file = fileInput.files[0];
+    const spinner = document.getElementById("spinner");
 
     if (!file) {
       alert("Por favor, selecciona un archivo.");
@@ -65,9 +69,12 @@ import Title from "../components/Title.astro";
     const formData = new FormData();
     formData.append("file", file);
 
+    // Mostrar el spinner
+    spinner.style.display = "block";
+
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/upload-mseed-to-json/",
+        "https://cosmic-123-337310624836.southamerica-east1.run.app/detect-events/",
         {
           method: "POST",
           body: formData,
@@ -78,14 +85,14 @@ import Title from "../components/Title.astro";
         throw new Error("Error en la respuesta del servidor");
       }
 
-      const data = await response.json();
-
-      const svgContent = data;
-
+      const svgContent = await response.text();
       const signalDiv = document.querySelector(".signal");
       signalDiv.innerHTML = svgContent;
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      // Ocultar el spinner cuando la llamada haya terminado (éxito o error)
+      spinner.style.display = "none";
     }
   });
 </script>
@@ -151,6 +158,7 @@ import Title from "../components/Title.astro";
   }
 
   .button-download {
+    position: relative;
     background-color: #333333;
     border: none;
     color: white;
@@ -163,6 +171,9 @@ import Title from "../components/Title.astro";
     cursor: pointer;
     border-radius: 25px;
     margin-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .button-download:hover {
@@ -246,6 +257,9 @@ import Title from "../components/Title.astro";
     width: 90%;
     height: 60%;
     background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .container-pitch {
@@ -261,6 +275,25 @@ import Title from "../components/Title.astro";
     width: 90%;
     height: 80%;
     background-color: white;
+  }
+
+  .spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   @keyframes satalite {

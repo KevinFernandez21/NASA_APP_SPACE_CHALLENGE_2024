@@ -80,3 +80,6 @@ The deployment of this project is managed through **Google Cloud Run**, a server
 - [Google Cloud Run](https://cloud.google.com/run)
 ## Disclaimer
 This project is an independent implementation and is not affiliated with or sponsored by NASA or any of the organizations or technologies mentioned.
+
+
+![Descripción de la imagen](./image/AstroLogo.png) ![Descripción de la imagen](./image/cloudLogo.png) ![Descripción de la imagen](./image/GeminiLogo.png) ![Descripción de la imagen](./image/NASAlogo.png) ![Descripción de la imagen](./image/pythonLogo.png)
