@@ -176,7 +176,7 @@ async def detect_events(file: UploadFile = File(...)):
         plt.title("Signal Filtered with Median Filter")
         plt.xlabel("Time (s)")
         plt.ylabel("Amplitude")
-        plt.savefig(os.path.join(median_dir, "median.png"))
+        plt.savefig(os.path.join(median_dir, "median.svg"), format="svg")
         plt.close()
 
         sample_rate = 1 / (tr_times[1] - tr_times[0])
