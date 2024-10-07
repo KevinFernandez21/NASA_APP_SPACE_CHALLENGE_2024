@@ -1,4 +1,8 @@
 ﻿# CosmicQuakes
+![Descripción de la imagen](./image/logoCosmic.jpg)
+
+## Video
+[![Watch the video](https://img.youtube.com/vi/Qt17XqvM73Y/hqdefault.jpg)](https://www.youtube.com/watch?v=Qt17XqvM73Y)
 
 ## Members
 ● Esleiter Jose Fajardo Laya  
@@ -6,9 +10,6 @@
 ● Diego Enzo Javier Araujo Ortega  
 ● Víctor Daniel Borbor Gutiérrez  
 ● Kevin David Fernandez Sanchez
-
-## Video
-
 
 ## Back-End Installation
 ### Create a virtual environment called 'env'
