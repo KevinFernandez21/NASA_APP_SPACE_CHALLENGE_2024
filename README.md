@@ -1,4 +1,4 @@
-﻿# CosmicQuakes - NASA APP SPACE CHALLENGUE
+﻿# COSMICQUAKES - NASA APP SPACE CHALLENGUE
 ![Descripción de la imagen](./image/file.jpg)
 
 ## Video
