@@ -1,10 +1,13 @@
 ﻿# CosmicQuakes
+
 ## Members
 ● Esleiter Jose Fajardo Laya  
 ● Aiston Ariel Salazar Vargas  
 ● Diego Enzo Javier Araujo Ortega  
 ● Víctor Daniel Borbor Gutiérrez  
 ● Kevin David Fernandez Sanchez
+
+## Video
 
 
 ## Back-End Installation
