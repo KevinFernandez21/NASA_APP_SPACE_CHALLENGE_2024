@@ -67,23 +67,23 @@ https://docs.google.com/document/d/1o_0bz3-MW2KJ5bCeEsQu4_z5OBKg2tfOF56gWJRCYOI/
 ### Research
 https://drive.google.com/drive/folders/1DtINUjPLPX3I8YHnhkOQI5IKpdufvh_4?usp=sharing
 
-## Derechos y Licencias
+## Rights and Licenses
 
-### Datos de la NASA
-Este proyecto utiliza datos proporcionados por la **NASA**. Los datos están sujetos a la política de uso de datos de la NASA, que permite su uso siempre que se dé el reconocimiento adecuado. Para más información sobre la política de uso de datos de la NASA, consulta el siguiente enlace:
+### Nasa Data
+This project uses data provided by the **NASA**. The data is subject to NASA's data user policy, which permits its use as long as proper attribution is given. For more information about NASA's data use policy, please see the following link:
 
-- [Política de uso de datos de la NASA](https://www.nasa.gov/content/nasa-open-data-policy)
+- [NASA Data Use Policy](https://www.nasa.gov/content/nasa-open-data-policy)
 
-El uso de estos datos no implica un respaldo por parte de la NASA hacia este proyecto o sus autores.
+The use of these data does not imply support from NASA for this project or its authors.
 
 ### GEMINI
-El algoritmo **GEMINI** utilizado en este proyecto para la detección de eventos sísmicos es software libre y está licenciado bajo la **[Licencia MIT](https://opensource.org/licenses/MIT)** (o la licencia que corresponda, dependiendo de GEMINI). Esto significa que puedes usar, modificar y distribuir GEMINI, siempre que se incluya una copia de la licencia.
+The **GEMINI** algorithm used in this project for the detection of seismic events is free software and is licensed under the **[MIT license](https://opensource.org/licenses/MIT)**. This means that you may use, modify, and distribute GEMINI as long as a copy of the license is included.
 
 ### Python
-Este proyecto utiliza **Python** para la programación backend, junto con diversas bibliotecas de código abierto (como `numpy`, `pandas`, `matplotlib`, `obspy`, etc.). Python está licenciado bajo la **[Licencia Python Software Foundation (PSF)](https://docs.python.org/3/license.html)**, que permite su libre uso en proyectos comerciales y no comerciales.
+This project uses **Python** for backend programming, along with various open-source libraries (such as `numpy`, `pandas`, `matplotlib`, `obspy`, etc.). Python is licensed under the **[Python Software Foundation License (PSF)](https://docs.python.org/3/license.html)**, which allows its free use in commercial and non-commercial projects.
 
 ### Astro
-El frontend de este proyecto utiliza **Astro**, una plataforma para la creación de sitios web estáticos. Astro está licenciado bajo la **[Licencia MIT](https://opensource.org/licenses/MIT)**, permitiendo el uso y modificación del software bajo los términos de esta licencia.
+The frontend of this project uses **Astro**, a plataform for the creation of static websites. Astro is licensed under the **[MIT License](https://opensource.org/licenses/MIT)**, allowing the use and modification of the software under the terms of this license.
 
 ### Disclaimer
-Este proyecto es una implementación independiente y no está afiliado ni patrocinado por la NASA ni por ninguna de las organizaciones o herramientas mencionadas.
+This project is an independent implementation and is not affiliated with or sponsored by NASA or any of the organizations or technologies mentioned.
