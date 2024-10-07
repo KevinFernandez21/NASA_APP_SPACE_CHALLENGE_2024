@@ -1,13 +1,14 @@
 import os
 import tempfile
 import numpy as np
-from obspy import read, Trace, UTCDateTime, Stream
+from obspy import read
 from obspy.signal.trigger import classic_sta_lta, trigger_onset
 from scipy.signal import medfilt
 import noisereduce as nr
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import shutil
 from obspy import read
 import io
@@ -17,6 +18,12 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 
 app = FastAPI()
+base_dir = os.path.dirname(os.path.abspath(__file__))
+results_dir = os.path.join(base_dir, "results")
+print(results_dir)
+
+app.mount("/results", StaticFiles(directory=results_dir), name="results")
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -294,17 +301,23 @@ async def detect_events(file: UploadFile = File(...)):
 @app.get("/list-images/")
 async def list_images():
     results_dir = "results"
-    image_urls = []
+    image_structure = {}
+    base_url = "http://localhost:8000"
 
     if os.path.exists(results_dir):
         for root, dirs, files in os.walk(results_dir):
+            relative_root = os.path.relpath(root, start=results_dir).replace(
+                os.sep, "/"
+            )
+            print(relative_root)
+            if relative_root not in image_structure:
+                image_structure[relative_root] = []
+
             for file in files:
                 if file.endswith((".png", ".jpg", ".jpeg", ".svg")):
-                    image_path = os.path.join(root, file)
-                    relative_path = os.path.relpath(image_path, start=os.getcwd())
-                    image_urls.append(f"/{relative_path}")
-
-    return JSONResponse(content={"images": image_urls})
+                    image_url = f"{base_url}/results/{relative_root}/{file}"
+                    image_structure[relative_root].append(image_url)
+    return JSONResponse(content=image_structure)
 
 
 if __name__ == "__main__":
