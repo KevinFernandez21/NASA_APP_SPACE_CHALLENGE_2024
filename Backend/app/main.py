@@ -18,12 +18,8 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 
 app = FastAPI()
-base_dir = os.path.dirname(os.path.abspath(__file__))
-results_dir = os.path.join(base_dir, "results")
-print(results_dir)
 
-app.mount("/results", StaticFiles(directory=results_dir), name="results")
-
+app.mount("/results", StaticFiles(directory="results"), name="results")
 
 app.add_middleware(
     CORSMiddleware,
