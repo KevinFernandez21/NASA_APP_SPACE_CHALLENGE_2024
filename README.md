@@ -57,10 +57,12 @@ Event detection: If the STA/LTA relation exceeds the threshold, a possible seism
 
 ## Rights and Licenses
 
-### Nasa Data
-This project uses data provided by the **NASA**. The data is subject to NASA's data user policy, which permits its use as long as proper attribution is given. For more information about NASA's data use policy, please see the following link:
+## Rights and Licenses
 
-- [NASA Data Use Policy](https://www.nasa.gov/content/nasa-open-data-policy)
+### NASA Data
+This project uses data provided by **NASA**. The data is subject to NASA's data user policy, which permits its use as long as proper attribution is given. For more information about NASA's data use policy, please see the following link:
+
+- [NASA Data Use Policy]([https://www.nasa.gov/content/nasa-open-data-policy](https://www.nasa.gov/wp-content/uploads/2021/12/nasa-ocs-public-access-plan-may-2023.pdf))
 
 The use of these data does not imply support from NASA for this project or its authors.
 
@@ -71,7 +73,11 @@ The **GEMINI** algorithm used in this project for the detection of seismic event
 This project uses **Python** for backend programming, along with various open-source libraries (such as `numpy`, `pandas`, `matplotlib`, `obspy`, etc.). Python is licensed under the **[Python Software Foundation License (PSF)](https://docs.python.org/3/license.html)**, which allows its free use in commercial and non-commercial projects.
 
 ### Astro
-The frontend of this project uses **Astro**, a plataform for the creation of static websites. Astro is licensed under the **[MIT License](https://opensource.org/licenses/MIT)**, allowing the use and modification of the software under the terms of this license.
+The frontend of this project uses **Astro**, a platform for the creation of static websites. Astro is licensed under the **[MIT License](https://opensource.org/licenses/MIT)**, allowing the use and modification of the software under the terms of this license.
 
+### Cloud Run
+The deployment of this project is managed through **Google Cloud Run**, a serverless platform for deploying containerized applications. Cloud Run allows the deployment of highly scalable web applications and APIs without managing the underlying infrastructure. For more information on Cloud Run's terms and services, please see the following link:
+
+- [Google Cloud Run](https://cloud.google.com/run)
 ## Disclaimer
 This project is an independent implementation and is not affiliated with or sponsored by NASA or any of the organizations or technologies mentioned.
