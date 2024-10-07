@@ -1,11 +1,15 @@
-﻿# CosmicQuakes
+﻿# COSMICQUAKES - NASA APP SPACE CHALLENGUE
+![Descripción de la imagen](./image/file.jpg)
+
+## Video
+[![Watch the video](https://img.youtube.com/vi/Qt17XqvM73Y/hqdefault.jpg)](https://www.youtube.com/watch?v=Qt17XqvM73Y)
+
 ## Members
 ● Esleiter Jose Fajardo Laya  
 ● Aiston Ariel Salazar Vargas  
 ● Diego Enzo Javier Araujo Ortega  
 ● Víctor Daniel Borbor Gutiérrez  
 ● Kevin David Fernandez Sanchez
-
 
 ## Back-End Installation
 ### Create a virtual environment called 'env'
@@ -42,45 +46,37 @@ npm start
 ## STA/LTA Algorithm (Short-Term Average / Long-Term Average)
 The STA/LTA algorithm is a technique widely used in seismology for the automatic detection of seismic events. It is based on comparing the average amplitudes in a short-term window (STA) with a long-term window (LTA) to identify abrupt changes in the signal that may indicate the arrival of a seismic event.
 
-### Operation:
+#### Operation:
 STA Calculation: Average of the signal in a short window.
 LTA Calculation: Average of the signal in a long window.
 STA/LTA Relation: The relation between STA and LTA is calculated .
 Event detection: If the STA/LTA relation exceeds the threshold, a possible seismic event is detected.
 
-### Important parameters:
-STA/LTA windows size: They are adjusted based on background noise and the signal.
-STA/LTA threshold: The value that defines when an event is detected, commonly between 3 and 5.
+### Code Integration and Versioning
+[Seismic Events Analysis STA/LTA algorithm](./Backend/README.md)
 
-### Aplications:
-Earthquake detection in real time.
-Seismic early warning.
-Volcanic activity monitoring.
-This algorithm is simple, efficient and adapts well to real-time monitoring environments, although is sensitive to noise and requires threshold adjustments.
 
-### Pitch
-https://docs.google.com/document/d/1o_0bz3-MW2KJ5bCeEsQu4_z5OBKg2tfOF56gWJRCYOI/edit?usp=sharing
+## Rights and Licenses
 
-### Research
-https://drive.google.com/drive/folders/1DtINUjPLPX3I8YHnhkOQI5IKpdufvh_4?usp=sharing
+### NASA Data
+This project uses data provided by **NASA**. The data is subject to NASA's data user policy, which permits its use as long as proper attribution is given. For more information about NASA's data use policy, please see the following link:
 
-## Derechos y Licencias
+- [NASA Data Use Policy]([https://www.nasa.gov/content/nasa-open-data-policy](https://www.nasa.gov/wp-content/uploads/2021/12/nasa-ocs-public-access-plan-may-2023.pdf))
 
-### Datos de la NASA
-Este proyecto utiliza datos proporcionados por la **NASA**. Los datos están sujetos a la política de uso de datos de la NASA, que permite su uso siempre que se dé el reconocimiento adecuado. Para más información sobre la política de uso de datos de la NASA, consulta el siguiente enlace:
-
-- [Política de uso de datos de la NASA](https://www.nasa.gov/content/nasa-open-data-policy)
-
-El uso de estos datos no implica un respaldo por parte de la NASA hacia este proyecto o sus autores.
+The use of these data does not imply support from NASA for this project or its authors.
 
 ### GEMINI
-El algoritmo **GEMINI** utilizado en este proyecto para la detección de eventos sísmicos es software libre y está licenciado bajo la **[Licencia MIT](https://opensource.org/licenses/MIT)** (o la licencia que corresponda, dependiendo de GEMINI). Esto significa que puedes usar, modificar y distribuir GEMINI, siempre que se incluya una copia de la licencia.
+The **GEMINI** algorithm used in this project for the detection of seismic events is free software and is licensed under the **[MIT license](https://opensource.org/licenses/MIT)**. This means that you may use, modify, and distribute GEMINI as long as a copy of the license is included.
 
 ### Python
-Este proyecto utiliza **Python** para la programación backend, junto con diversas bibliotecas de código abierto (como `numpy`, `pandas`, `matplotlib`, `obspy`, etc.). Python está licenciado bajo la **[Licencia Python Software Foundation (PSF)](https://docs.python.org/3/license.html)**, que permite su libre uso en proyectos comerciales y no comerciales.
+This project uses **Python** for backend programming, along with various open-source libraries (such as `numpy`, `pandas`, `matplotlib`, `obspy`, etc.). Python is licensed under the **[Python Software Foundation License (PSF)](https://docs.python.org/3/license.html)**, which allows its free use in commercial and non-commercial projects.
 
 ### Astro
-El frontend de este proyecto utiliza **Astro**, una plataforma para la creación de sitios web estáticos. Astro está licenciado bajo la **[Licencia MIT](https://opensource.org/licenses/MIT)**, permitiendo el uso y modificación del software bajo los términos de esta licencia.
+The frontend of this project uses **Astro**, a platform for the creation of static websites. Astro is licensed under the **[MIT License](https://opensource.org/licenses/MIT)**, allowing the use and modification of the software under the terms of this license.
 
-### Disclaimer
-Este proyecto es una implementación independiente y no está afiliado ni patrocinado por la NASA ni por ninguna de las organizaciones o herramientas mencionadas.
+### Cloud Run
+The deployment of this project is managed through **Google Cloud Run**, a serverless platform for deploying containerized applications. Cloud Run allows the deployment of highly scalable web applications and APIs without managing the underlying infrastructure. For more information on Cloud Run's terms and services, please see the following link:
+
+- [Google Cloud Run](https://cloud.google.com/run)
+## Disclaimer
+This project is an independent implementation and is not affiliated with or sponsored by NASA or any of the organizations or technologies mentioned.
