@@ -1,5 +1,5 @@
 ﻿# CosmicQuakes
-![Descripción de la imagen](./image/logoCosmic.jpg)
+![Descripción de la imagen](./image/file.jpg)
 
 ## Video
 [![Watch the video](https://img.youtube.com/vi/Qt17XqvM73Y/hqdefault.jpg)](https://www.youtube.com/watch?v=Qt17XqvM73Y)
