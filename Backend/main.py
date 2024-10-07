@@ -18,12 +18,11 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 
 app = FastAPI()
-base_dir = os.path.dirname(os.path.abspath(__file__))
-results_dir = os.path.join(base_dir, "results")
-print(results_dir)
 
-app.mount("/results", StaticFiles(directory=results_dir), name="results")
+if not os.path.exists("results"):
+    os.makedirs("results")
 
+app.mount("/results", StaticFiles(directory="results"), name="results")
 
 app.add_middleware(
     CORSMiddleware,
@@ -302,7 +301,7 @@ async def detect_events(file: UploadFile = File(...)):
 async def list_images():
     results_dir = "results"
     image_structure = {}
-    base_url = "http://localhost:8000"
+    base_url = "https://cosmic-123-337310624836.southamerica-east1.run.app"
 
     if os.path.exists(results_dir):
         for root, dirs, files in os.walk(results_dir):
