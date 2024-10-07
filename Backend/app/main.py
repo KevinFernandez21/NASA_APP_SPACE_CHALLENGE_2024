@@ -19,6 +19,9 @@ import google.generativeai as genai
 
 app = FastAPI()
 
+if not os.path.exists("results"):
+    os.makedirs("results")
+
 app.mount("/results", StaticFiles(directory="results"), name="results")
 
 app.add_middleware(
@@ -298,7 +301,7 @@ async def detect_events(file: UploadFile = File(...)):
 async def list_images():
     results_dir = "results"
     image_structure = {}
-    base_url = "http://localhost:8000"
+    base_url = "https://cosmic-123-337310624836.southamerica-east1.run.app"
 
     if os.path.exists(results_dir):
         for root, dirs, files in os.walk(results_dir):
