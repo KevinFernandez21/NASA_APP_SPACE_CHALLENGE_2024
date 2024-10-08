@@ -59,6 +59,30 @@ def deserialize_response(response_text):
         raise ValueError("Could not deserialize the response. Invalid format.")
 
 
+def deserialize_and_adjust(string):
+    # Extraer la parte relevante del string
+    cleaned_string = string.split("=", 1)[1].strip()
+
+    # Evaluar el string de forma segura
+    elements = eval(cleaned_string)  # Asegúrate de que el contenido sea seguro
+
+    adjusted_thresholds = []
+
+    for dictionary in elements:
+        probability = float(dictionary.get("probability", 0))
+        if probability >= 0.80:  # Solo considera probabilidades >= 80%
+            adjusted_event = {
+                "on": dictionary["on"] * 0.9,
+                "off": dictionary["off"],
+                "time_init": int(dictionary["time_init"] * 0.9),  # Convertir a int
+                "time_end": int(dictionary["time_end"] * 1.1),  # Convertir a int
+                "probability": probability,
+            }
+            adjusted_thresholds.append(adjusted_event)
+
+    return adjusted_thresholds
+
+
 generation_config = {
     "temperature": 1,
     "top_p": 0.95,
@@ -68,6 +92,11 @@ generation_config = {
 }
 
 model = genai.GenerativeModel(
+    model_name="gemini-1.5-pro",
+    generation_config=generation_config,
+)
+
+model2 = genai.GenerativeModel(
     model_name="gemini-1.5-pro",
     generation_config=generation_config,
 )
@@ -131,6 +160,7 @@ async def upload_mseed_or_csv_to_json(file: UploadFile = File(...)):
 @app.post("/detect-events/")
 async def detect_events(file: UploadFile = File(...)):
     temp_file = tempfile.NamedTemporaryFile(delete=False)
+
     try:
         with temp_file:
             shutil.copyfileobj(file.file, temp_file)
@@ -227,42 +257,65 @@ async def detect_events(file: UploadFile = File(...)):
 
             i += 1
 
-        thresholds = [
-            {"on": 12, "off": 1},
-            {"on": 10, "off": 1},
-            {"on": 6, "off": 1},
-            {"on": 5, "off": 1},
-            {"on": 4, "off": 1},
-            {"on": 1.8, "off": 1},
-            {"on": 1.5, "off": 1},
-            {"on": 1.1, "off": 1},
-        ]
+        thresholds = []
 
+        response = model2.generate_content(
+            [
+                upload_to_gemini(
+                    os.path.join(characteristic_dir, f"characteristic-{i-1}.png"),
+                    mime_type="image/png",
+                ),
+                "Analyze the graph and identify the earthquake signals. For each event, provide the 'on' and 'off' thresholds along with the approximate time and the probability of it being an earthquake, using **only** the format below. Your response must strictly follow this format and the number of thresholds must match the number of events in the graph: thresholds = [\n\
+                    {'on': 00.0, 'off': 1, 'time_init': T1, 'time_end': T1, 'probability': P1},\n\
+                    {'on': 00.0, 'off': 1, 'time_init': T2, 'time_end': T1, 'probability': P2}\n\
+                    # Add more events as necessary\n\
+                ]\n\
+                Ensure the 'on' 1 value is given as a single value matching the left Y-axis at the start of each event, and use 1 as the 'off' value. Also, provide the approximate time as a single value for each event based on the X-axis, and include a probability (0-100%) for each event indicating the likelihood of it being an earthquake.",
+            ]
+        )
+        thresholds = deserialize_and_adjust(response.text)
         filtered_on_off = []
         min_duration_samples = 420
         detected_events = set()
 
         for idx, thr in enumerate(thresholds):
-            thr_on = thr["on"]
+            thr_on = max(thr["on"], 1.1)
             thr_off = thr["off"]
 
             on_off = np.array(trigger_onset(cft, thr_on, thr_off))
 
             temp_filtered = []
             for triggers in on_off:
-                if (triggers[1] - triggers[0]) >= min_duration_samples:
+                event_start_time = tr_times[triggers[0]]
+                event_end_time = tr_times[triggers[1]]
+
+                if (
+                    (triggers[1] - triggers[0]) >= min_duration_samples
+                    and event_start_time >= thresholds[idx]["time_init"]
+                    and event_end_time <= thresholds[idx]["time_end"]
+                ):
+
+                    print(
+                        f"Evento detectado: {triggers} con tiempo {event_start_time} - {event_end_time}"
+                    )
+
                     event_range = range(triggers[0], triggers[1] + 1)
                     if not any(time in detected_events for time in event_range):
                         temp_filtered.append(triggers)
                         detected_events.update(event_range)
 
             temp_filtered = np.array(temp_filtered)
+
             if len(temp_filtered) > 0:
                 filtered_on_off.extend(temp_filtered.tolist())
 
         if len(filtered_on_off) > 0:
+            print(f"Se encontraron {len(filtered_on_off)} eventos válidos.")
+
             fig, ax = plt.subplots(1, 1, figsize=(12, 3))
-            for i, triggers in enumerate(filtered_on_off):
+
+            for i in range(len(filtered_on_off)):
+                triggers = filtered_on_off[i]
                 ax.axvline(
                     x=tr_times[triggers[0]],
                     color="red",
@@ -287,9 +340,7 @@ async def detect_events(file: UploadFile = File(...)):
             )
             plt.close()
         else:
-            print(
-                "No events meeting the minimum duration were found at any thresholds."
-            )
+            return {"error": "No events detected."}
 
         return FileResponse(os.path.join(event_results_dir, "event_results.svg"))
 
