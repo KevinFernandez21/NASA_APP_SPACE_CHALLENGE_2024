@@ -1,5 +1,5 @@
 
-Demo: [Watch Demo](https://cosmic-sand.vercel.app/)
+Demo: [GO!](https://cosmic-sand.vercel.app/)
 
  # COSMICQUAKES - NASA APP SPACE CHALLENGUE
 ![Descripción de la imagen](./image/file.jpg)
